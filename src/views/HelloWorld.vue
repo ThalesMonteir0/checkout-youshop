@@ -3,6 +3,7 @@ import SplitScreen from "../components/SplitScreen.vue"
 import InfoProduct from "../components/InfoProduct.vue";
 import {reactive, watch} from 'vue'
 import {getCepService} from '../service/cepService'
+import {AddMaskToPhone,RemoveMaskToPhone} from '../composables/useMasks'
 
 const inputsDadosClientsValue = reactive({
   name: '',
@@ -26,7 +27,7 @@ const verifyNameInput = [
 
 const verifyTelephoneNumber = [
   v => v.trim().length > 0 || "Campo Obrigatório. preencha seu Telefone!",
-  v => v.trim().length === 11 || "Número inválido, por favor informe um número válido! ex: (xx)xxxxxxxxx"                                                                                            
+  v => RemoveMaskToPhone(v).trim().length === 11 || "Número inválido, por favor informe um número válido! ex: (xx)xxxxxxxxx"                                                                                            
 ]
 
 const verifyNeighborhoodInput = [
@@ -69,6 +70,9 @@ const searchCEP = (cepValue) => {
   }).catch(err => {
   })
 }
+const formatTelephone = (value) => {
+  inputsDadosClientsValue.telephone = AddMaskToPhone(value)
+}
 
 
 </script>
@@ -90,13 +94,15 @@ const searchCEP = (cepValue) => {
                 <v-text-field variant="outlined"
                                v-model="inputsDadosClientsValue.telephone"
                               label="Número" 
+                              @input="formatTelephone(inputsDadosClientsValue.telephone)"
+                              :rules="verifyTelephoneNumber"
                               />
               </v-col>
               <v-col cols="12" md="10">
                 <v-text-field label="Email (opcional)"
                                v-model="inputsDadosClientsValue.email"
                               variant="outlined"
-                              :rules="verifyEmail" />
+                              />
               </v-col>
             </v-row>
             <v-row>
