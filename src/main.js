@@ -15,4 +15,14 @@ const vuetify = createVuetify({
 
 // vue-router
 import router from './routes'
-createApp(App).use(vuetify).use(router).mount('#app')
+
+// vuex
+import store from './store'
+
+// msw
+import { worker } from './mocks/browser'
+if(import.meta.env.MODE === 'development'){
+  worker.start();
+}
+
+createApp(App).use(vuetify).use(router).use(store).mount('#app')

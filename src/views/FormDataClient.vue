@@ -4,6 +4,9 @@ import InfoProduct from "../components/InfoProduct.vue";
 import {reactive, watch} from 'vue'
 import {getCepService} from '../service/cepService'
 import {AddMaskToPhone,RemoveMaskToPhone} from '../composables/useMasks'
+import {useStore} from 'vuex'
+
+const store = useStore()
 
 const inputsDadosClientsValue = reactive({
   name: '',
@@ -72,6 +75,22 @@ const searchCEP = (cepValue) => {
 }
 const formatTelephone = (value) => {
   inputsDadosClientsValue.telephone = AddMaskToPhone(value)
+}
+
+const verifyFields = () => {
+  if(inputsDadosClientsValue.avenueOrStreet.trim().length === 0 || inputsDadosClientsValue.cep.trim().length === 0 || verifyCep(inputsDadosClientsValue.cep.trim()) ||
+  inputsDadosClientsValue.number.trim().length === 0 || inputsDadosClientsValue.neighborhood.trim().length === 0 || inputsDadosClientsValue.telephone.trim().length === 0 ||
+  RemoveMaskToPhone(v).trim().length === 11){
+    return false
+  }
+  return true
+}
+
+const SaveInStoreAndRedirectPage = () => {
+  if(!verifyFields){
+    // colocar tip 
+  }
+  store.state.clientData = inputsDadosClientsValue
 }
 
 
@@ -155,7 +174,7 @@ const formatTelephone = (value) => {
         </v-container>
       </v-card>
       <div class="d-flex justify-end mt-4">
-        <v-btn color="success">Continuar</v-btn>
+        <v-btn color="success" @click="SaveInStoreAndRedirectPage">Continuar</v-btn>
       </div>
     </template>
 

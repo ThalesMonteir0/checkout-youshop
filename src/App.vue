@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from './views/HelloWorld.vue'
+import FormDataClient from './views/FormDataClient.vue'
 </script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
+  <router-view></router-view>
 </template>
 
 <style scoped>
