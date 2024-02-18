@@ -17,3 +17,6 @@ Este é um projeto desenvolvido como parte de um teste técnico. O projeto consi
 - rode o projeto com npm run dev 
 - acesse http://localhost:3000/1
 
+## Telas 
+![Tela Formulário dados do cliente](src/assets/mocksScreens/formDataClient.png)
+
