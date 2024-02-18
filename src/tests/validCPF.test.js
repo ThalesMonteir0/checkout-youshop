@@ -36,14 +36,14 @@
   }
 
 describe('validCPF', () => {
-  test('retorna falso para CPFs inválidos', () => {
+  test('returns false for invalid CPFs', () => {
     expect(validCPF('')).toBe(false); // CPF empty
     expect(validCPF('123')).toBe(false); // CPF with less than 11 digits
     expect(validCPF('11111111111')).toBe(false); // CPF with all the same digits
     expect(validCPF('12345678900')).toBe(false); // CPF invalid
   });
 
-  test('retorna verdadeiro para CPFs válidos', () => {
+  test('returns true for valid CPFs', () => {
     expect(validCPF('529.982.247-25')).toBe(true); // Valid CPF with punctuation
     expect(validCPF('52998224725')).toBe(true); // Valid CPF without punctuation
   });
