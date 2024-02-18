@@ -12,7 +12,7 @@ const props = defineProps({
             <v-container class="h-100">
                 <h1>Deep Space Store</h1>
                 <h2 class="mt-10 mb-3">{{ props.title }}</h2>
-                <v-row style="height: 90%;">
+                <v-row style="height: 90%;" class="responsive-colum">
                     <v-col md="8" >
                         <slot name="left"></slot>
                     </v-col>
@@ -27,5 +27,15 @@ const props = defineProps({
 </template>
 
 <style scoped>
+.responsive-colum {
+    display: flex;
+}
+
+@media screen and (max-width: 500px) {
+    .responsive-colum{
+        display: block;
+    }
+
+}
 
 </style>

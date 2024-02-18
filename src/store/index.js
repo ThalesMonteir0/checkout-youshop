@@ -4,7 +4,7 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     clientData: {},
-    paymentData: {},
+    product: {},
   },
   mutations: {
   },

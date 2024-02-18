@@ -1,12 +1,24 @@
 <script setup>
 import SplitScreen from "../components/SplitScreen.vue"
 import InfoProduct from "../components/InfoProduct.vue";
-import {reactive, watch} from 'vue'
+import {reactive, watch,ref, onMounted} from 'vue'
 import {getCepService} from '../service/cepService'
 import {AddMaskToPhone,RemoveMaskToPhone} from '../composables/useMasks'
 import {useStore} from 'vuex'
+import { useRoute } from 'vue-router';
+import {verifyCep} from '../composables/verify'
+import {verifyNameInput,
+  verifyTelephoneNumber,
+  verifyNeighborhoodInput,
+  verifyStreetOrAvenueInput,
+  verifyHouseNumberInput,
+  verifyCepRules} from '../composables/rules'
+  import { inject } from 'vue';
 
+const notyf = inject('notyf');
+const route = useRoute()
 const store = useStore()
+const paramID = ref('')
 
 const inputsDadosClientsValue = reactive({
   name: '',
@@ -18,52 +30,14 @@ const inputsDadosClientsValue = reactive({
   neighborhood: '',
   avenueOrStreet: '',
   number: '',
-  complment: ''
+  complement: ''
 });
 
 watch(() => inputsDadosClientsValue.cep,(newValue) => searchCEP(newValue))
 
-const verifyNameInput = [
-  v => v.trim().length > 0 || "Campo Obrigatório. preencha seu nome completo!"
-
-]
-
-const verifyTelephoneNumber = [
-  v => v.trim().length > 0 || "Campo Obrigatório. preencha seu Telefone!",
-  v => RemoveMaskToPhone(v).trim().length === 11 || "Número inválido, por favor informe um número válido! ex: (xx)xxxxxxxxx"                                                                                            
-]
-
-const verifyNeighborhoodInput = [
-  v => v.trim().length > 0 || "Campo Obrigatório. preencha o Bairro!"
-
-]
-const verifyStreetOrAvenueInput = [
-  v => v.trim().length > 0 || "Campo Obrigatório. preencha a avenia/Rua!"
-
-]
-
-const verifyHouseNumberInput = [
-  v => v.trim().length > 0 || "Campo Obrigatório. preencha o número da casa/apartamento!"
-]
-
-
-const verifyCepRules = [
-  v => v.trim().length > 0 || "Campo Obrigatório, preencha o CEP",
-  v => v.trim().length === 8 || "Por Favor, informe um CEP válido nesse formato Ex: xxxxx-xxx"
-]
-
-const verifyCep = (val) => {
-  if(val.length != 8 ){ 
-    return false
-  }
-
-  return true
-}
 const searchCEP = (cepValue) => {
   let ok = verifyCep(cepValue)
-  if (!ok){
-    return
-  }
+  if (!ok) return
 
   getCepService(cepValue).then(res => {
     inputsDadosClientsValue.stateinput = res.data.uf
@@ -71,27 +45,33 @@ const searchCEP = (cepValue) => {
     inputsDadosClientsValue.city = res.data.localidade
     inputsDadosClientsValue.avenueOrStreet = res.data.logradouro
   }).catch(err => {
+    console.error(err)
   })
 }
+
 const formatTelephone = (value) => {
   inputsDadosClientsValue.telephone = AddMaskToPhone(value)
 }
 
 const verifyFields = () => {
-  if(inputsDadosClientsValue.avenueOrStreet.trim().length === 0 || inputsDadosClientsValue.cep.trim().length === 0 || verifyCep(inputsDadosClientsValue.cep.trim()) ||
-  inputsDadosClientsValue.number.trim().length === 0 || inputsDadosClientsValue.neighborhood.trim().length === 0 || inputsDadosClientsValue.telephone.trim().length === 0 ||
-  RemoveMaskToPhone(v).trim().length === 11){
-    return false
-  }
+  if(inputsDadosClientsValue.avenueOrStreet.trim().length === 0 || inputsDadosClientsValue.cep.trim().length === 0||
+  inputsDadosClientsValue.number.trim().length === 0 || inputsDadosClientsValue.neighborhood.trim().length === 0 || 
+  inputsDadosClientsValue.telephone.trim().length === 0 ||RemoveMaskToPhone(inputsDadosClientsValue.telephone).trim().length !== 11) return false
+  
   return true
 }
 
 const SaveInStoreAndRedirectPage = () => {
-  if(!verifyFields){
-    // colocar tip 
+  if(!verifyFields()){
+    notyf.error('Preencha todos os campos do formulario!')
+    return
   }
   store.state.clientData = inputsDadosClientsValue
 }
+
+onMounted(() => {
+  paramID.value =  route.params.id
+})
 
 
 </script>
@@ -165,7 +145,7 @@ const SaveInStoreAndRedirectPage = () => {
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field label="Complemento (opcional)"
-                              v-model="inputsDadosClientsValue.complment"
+                              v-model="inputsDadosClientsValue.complement"
                                variant="outlined" 
                                />
               </v-col>
@@ -179,10 +159,11 @@ const SaveInStoreAndRedirectPage = () => {
     </template>
 
     <template #rigth>
-      <InfoProduct/>
+      <InfoProduct :productID="paramID"/>
     </template>
 
   </SplitScreen>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

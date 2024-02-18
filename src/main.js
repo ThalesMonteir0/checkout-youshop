@@ -21,8 +21,16 @@ import store from './store'
 
 // msw
 import { worker } from './mocks/browser'
-if(import.meta.env.MODE === 'development'){
-  worker.start();
-}
+worker.start();
 
-createApp(App).use(vuetify).use(router).use(store).mount('#app')
+// vue-mask
+import VueMask from '@devindex/vue-mask'
+import { Notyf } from 'notyf';
+
+import 'notyf/notyf.min.css';
+
+const notyf = new Notyf({
+  duration: 5000 // Configuração global do Notyf
+});
+
+createApp(App).use(vuetify).use(router).use(store).use(VueMask).provide('notyf', notyf).mount('#app')

@@ -1,9 +1,10 @@
 import {createRouter,createWebHistory } from 'vue-router'
 import FormDataClient from '../views/FormDataClient.vue'
+import FormDataPayment from '../views/FormDataPayment.vue'
 
 const routes = [
   { path: '/:id', component: FormDataClient },
-  // { path: '/', component: Bar }
+  { path: '/:id/payment', component: FormDataPayment }
 ]
 
 const router = createRouter({
