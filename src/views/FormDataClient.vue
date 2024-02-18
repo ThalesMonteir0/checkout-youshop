@@ -5,7 +5,7 @@ import {reactive, watch,ref, onMounted} from 'vue'
 import {getCepService} from '../service/cepService'
 import {AddMaskToPhone,RemoveMaskToPhone} from '../composables/useMasks'
 import {useStore} from 'vuex'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import {verifyCep} from '../composables/verify'
 import {verifyNameInput,
   verifyTelephoneNumber,
@@ -17,8 +17,9 @@ import {verifyNameInput,
 
 const notyf = inject('notyf');
 const route = useRoute()
+const router = useRouter()
 const store = useStore()
-const paramID = ref('')
+const paramID = ref(route.params.id)
 
 const inputsDadosClientsValue = reactive({
   name: '',
@@ -40,10 +41,10 @@ const searchCEP = (cepValue) => {
   if (!ok) return
 
   getCepService(cepValue).then(res => {
-    inputsDadosClientsValue.stateinput = res.data.uf
-    inputsDadosClientsValue.neighborhood = res.data.bairro
-    inputsDadosClientsValue.city = res.data.localidade
-    inputsDadosClientsValue.avenueOrStreet = res.data.logradouro
+    inputsDadosClientsValue.stateinput = res.data.uf  ?? ''
+    inputsDadosClientsValue.neighborhood = res.data.bairro ??''
+    inputsDadosClientsValue.city = res.data.localidade ?? ''
+    inputsDadosClientsValue.avenueOrStreet = res.data.logradouro ?? ''
   }).catch(err => {
     console.error(err)
   })
@@ -62,18 +63,15 @@ const verifyFields = () => {
 }
 
 const SaveInStoreAndRedirectPage = () => {
+  let paramString = paramID.value.toString()
   if(!verifyFields()){
     notyf.error('Preencha todos os campos do formulario!')
     return
   }
   store.state.clientData = inputsDadosClientsValue
+  // redirect page to formaDataPayment
+  router.push({name: 'form-data-payment', params: { id: paramString }})
 }
-
-onMounted(() => {
-  paramID.value =  route.params.id
-})
-
-
 </script>
 
 <template>

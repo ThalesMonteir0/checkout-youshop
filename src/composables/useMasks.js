@@ -23,3 +23,10 @@ export const AddMaskToPhone = (value) => {
 export const RemoveMaskToPhone = (value) => {
     return value.replace(/\D/g, '');
 }
+
+export const formatStringToCurrency = (value) => { 
+    return value.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    })
+}

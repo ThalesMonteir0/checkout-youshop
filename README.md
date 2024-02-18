@@ -1,7 +1,19 @@
-# Vue 3 + Vite
+# Projeto de Teste Técnico - Tela de checkout DeepSpaceStore
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Este é um projeto desenvolvido como parte de um teste técnico. O projeto consiste em criar uma sequencia de telas de formulário para a simulação de uma compra em telas de checkout.
 
-## Recommended IDE Setup
+## Tecnologias Utilizadas
+[Vuejs]: Framework progressivo utlizado para criação de SPA. 
+[VUEX]: Biblioteca para gerenciamento de estado, Utilizei nesse projeto para centralizar o estado entre os componentes e sendo assim tendo uma maior facilidade e dinamismo para o compartilhamento de estados entre toda a aplicação
+[Vuetify]: Biblioteca de componentes UX/UI baseado no materialDesign. Utilizado para construir toda a parte visual da aplicação, obtendo uma maior facilidade no desenvolvimento e rapidez.
+[Vue-router]: Biblioteca oficial de roteamento para aplicativos Vue.js, ele permite a navegação entre diferentes partes da aplicação. Utilizado para fazer a navegação entre paginas.
+[Mock-Service-Worker]: Biblioteca que permite simular uma API em um ambiente de desenvolvimento. Utilizado para mockar e simular uma api RESTFULL onde foi feitas requisições GET e POST.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Instalação
+1- Clone o repositório
+2- navegue até o diretorio do projeto
+3- execute "npm install" para baixar todas as dependencias
+4- execute npx msw init .\public\ para inicializar a primeira vez o msw (caso nescessario)
+5- rode o projeto com npm run dev 
+6- acesse http://localhost:3000/1
+

@@ -26,7 +26,6 @@ export const handlers = [
 
     http.post('/offers/:id/create_order', async ({request}) => {
         const newOrder = await request.json()
-        console.log(newOrder);
         if(newOrder.cpf === "000.000.000-00"){
             return HttpResponse.json({err: 'CPF invalido!'},{status: 400})
         }

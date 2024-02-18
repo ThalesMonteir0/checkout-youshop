@@ -4,19 +4,20 @@ import InfoProduct from "../components/InfoProduct.vue";
 import logoPix from '../assets/images/logo-pix.png';
 import logoCartao from '../assets/images/logo-cartao.svg';
 import logoBoleto from '../assets/images/logo-barras.svg';
-import { ref, reactive,onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { verifyCVV, verifyDueDate, verifyCardNumber, verifyCpf } from '../composables/rules'
 import { validCPF } from "../composables/verify";
 import { useStore } from "vuex";
 import { postProduct } from '../service/productService'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { inject } from 'vue';
 
 const notyf = inject('notyf');
 const route = useRoute()
+const router = useRouter()
 const store = useStore()
 const typePayment = ref('')
-const paramID = ref('')
+const paramID = ref(route.params.id)
 const dataInputDataPayment = reactive({
     cpf: '',
     cardNumber: '',
@@ -44,7 +45,6 @@ const verifyFields = () => {
 
 const createOrder = async () => {
     if(!verifyFields()){
-        console.log("faltou algo");
         if(typePayment.value === ''){
             notyf.error('Escolha a forma de pagamento!')
             return
@@ -70,17 +70,13 @@ const createOrder = async () => {
         typePayment: typePayment.value,
     }
     await postProduct(paramID.value,allDataClient).then(res => {
-        console.log(res.data);
-
+        store.state.infoOrder = res.data
+        router.push({name: 'sucess'})
 
     }).catch(err => {
         notyf.error('Não foi possível realizar a efetivação da sua compra')
     })
 }
-
-onMounted(() => {
-    paramID.value =  route.params.id
-})
 
 </script>
 <template >
@@ -157,7 +153,7 @@ onMounted(() => {
                 </v-card>
             </v-form>
             <div class="d-flex justify-end mt-3">
-                <v-btn color="success" @click="createOrder">Concluir</v-btn>
+                <v-btn color="success" @click="createOrder">Finalizar Compra</v-btn>
             </div>
         </template>
         <template #rigth>

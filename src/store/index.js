@@ -5,6 +5,7 @@ export default createStore({
   state: {
     clientData: {},
     product: {},
+    infoOrder: {}
   },
   mutations: {
   },
