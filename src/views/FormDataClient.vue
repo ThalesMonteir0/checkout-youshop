@@ -69,8 +69,13 @@ const SaveInStoreAndRedirectPage = () => {
     return
   }
   store.state.clientData = inputsDadosClientsValue
-  // redirect page to formaDataPayment
-  router.push({name: 'form-data-payment', params: { id: paramString }})
+
+  if(store.state.product.id === undefined) {
+    notyf.error('Nenhum produto selecionado!')
+    return
+  }
+  
+  router.push({name: 'form-data-payment', params: { id: paramString }}) // redirect page to formaDataPayment
 }
 </script>
 
