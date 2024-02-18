@@ -51,9 +51,9 @@ onMounted(async () => {
                 <span>Produto:</span>
                 <span>{{ store.state.product.name }}</span>
             </div>
-            <div class="d-flex justify-space-between">
+            <div class="d-flex justify-space-between" v-if="store.state.product.price">
                 <span>Preço:</span>
-                <span>{{ store.state.product.price }}</span>
+                <span>{{ formatStringToCurrency(store.state.product.price) }}</span>
             </div>
             <div class="d-flex justify-space-between">
                 <span>Frete:</span>
