@@ -19,4 +19,10 @@ Este é um projeto desenvolvido como parte de um teste técnico. O projeto consi
 
 ## Telas 
 ![Tela Formulário dados do cliente](src/assets/mocksScreens/formDataClient.png)
+![Tela Formulário dados de pagamento](src/assets/mocksScreens/formDataPayment.png)
+![Tela Formulário dados de pagamento com cartão](src/assets/mocksScreens/formDataPaymentCard.png)
+![Tela de Sucesso com boleto](src/assets/mocksScreens/sucessBoleto.png)
+![Tela de sucesso com cartão](src/assets/mocksScreens/sucessCard.png)
+![Tela de sucesso com pix](src/assets/mocksScreens/sucessPix.png)
+
 
