@@ -3,7 +3,6 @@ import { useStore } from 'vuex';
 import { formatStringToCurrency } from '../composables/useMasks';
 
 const store = useStore()
-const { srcImg } = store.state.product
 
 </script>
 <template>

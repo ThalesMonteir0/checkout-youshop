@@ -1,6 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { defineProps } from 'vue';
+import { onMounted, ref, defineProps } from 'vue';
 import { useStore } from 'vuex'
 import { getProduct } from '../service/productService'
 import { formatStringToCurrency } from '../composables/useMasks';

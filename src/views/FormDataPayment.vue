@@ -4,13 +4,12 @@ import InfoProduct from "../components/InfoProduct.vue";
 import logoPix from '../assets/images/logo-pix.png';
 import logoCartao from '../assets/images/logo-cartao.svg';
 import logoBoleto from '../assets/images/logo-barras.svg';
-import { ref, reactive } from 'vue'
+import { ref, reactive, inject } from 'vue'
 import { verifyCVV, verifyDueDate, verifyCardNumber, verifyCpf } from '../composables/rules'
 import { validCPF } from "../composables/verify";
 import { useStore } from "vuex";
 import { postProduct } from '../service/productService'
 import { useRoute, useRouter } from 'vue-router';
-import { inject } from 'vue';
 
 const notyf = inject('notyf');
 const route = useRoute()
@@ -33,9 +32,8 @@ const paymentMethods = [
 const verifyFields = () => {
     if (typePayment.value === '') return false
     if (validCPF(dataInputDataPayment.cpf)) {
-        if (typePayment === 'card') {
-            if (!dataInputDataPayment.cardNumber.length > 0 || !dataInputDataPayment.cvv.length > 0 && dataInputDataPayment.DueDate.length > 0) return false
-            return true
+        if (typePayment.value === 'card') {
+            if (!dataInputDataPayment.cardNumber.length > 0 || !dataInputDataPayment.cvv.length > 0 || !dataInputDataPayment.DueDate.length > 0) return false
         }
         return true
     }

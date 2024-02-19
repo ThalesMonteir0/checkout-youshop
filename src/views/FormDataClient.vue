@@ -1,7 +1,7 @@
 <script setup>
 import SplitScreen from "../components/SplitScreen.vue"
 import InfoProduct from "../components/InfoProduct.vue";
-import {reactive, watch,ref, onMounted} from 'vue'
+import {reactive, watch,ref, inject} from 'vue'
 import {getCepService} from '../service/cepService'
 import {AddMaskToPhone,RemoveMaskToPhone} from '../composables/useMasks'
 import {useStore} from 'vuex'
@@ -13,7 +13,6 @@ import {verifyNameInput,
   verifyStreetOrAvenueInput,
   verifyHouseNumberInput,
   verifyCepRules} from '../composables/rules'
-  import { inject } from 'vue';
 
 const notyf = inject('notyf');
 const route = useRoute()
